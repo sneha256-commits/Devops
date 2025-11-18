@@ -8,7 +8,7 @@ pipeline {
         CONTAINER_NAME  = "microservice-container"
         HOST_PORT       = "9090"               // Host port for the service
         CONTAINER_PORT  = "8080"               // Container port
-        AWS_CREDENTIAL  = "aws-ecr-creds"     // Jenkins AWS credentials ID
+        AWS_CREDENTIAL  = "aws-ecr-cred"     // Jenkins AWS credentials ID
     }
 
     stages {
@@ -31,7 +31,7 @@ pipeline {
         stage('Create ECR Repository') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                                  credentialsId: 'aws-ecr-creds']]) {
+                                  credentialsId: AWS_CREDENTIAL]]) {
                     sh '''
                         ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
                         ECR_URI="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
