@@ -31,7 +31,7 @@ pipeline {
         stage('Create ECR Repository') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                                  credentialsId: AWS_CREDENTIAL]]) {
+                                  credentialsId: 'aws-ecr-creds']]) {
                     sh '''
                         ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
                         ECR_URI="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
